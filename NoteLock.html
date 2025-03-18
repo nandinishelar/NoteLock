@@ -1,0 +1,63 @@
+<!-- NoteLock: A Secure Note and Password Manager Web Application -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Keep Your note here</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>NoteLock</h1>
+            <p>Your secure note and password manager</p>
+        </header>
+        <main>
+            <section class="note-section">
+                <h2>Create a New Note</h2>
+                <form id="noteForm">
+                    <textarea id="noteInput" placeholder="Write your note here..." required></textarea>
+                    <button type="submit">Save Note</button>
+                </form>
+            </section>
+            <section class="notes-list">
+                <h2>Your Notes</h2>
+                <ul id="notesContainer">
+                    <!-- Notes will be dynamically added here -->
+                </ul>
+            </section>
+        </main>
+        <footer>
+            <p>&copy; 2023 NoteLock. All rights reserved.</p>
+        </footer>
+    </div>
+</body>
+<script>
+    document.getElementById('noteForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+
+        const noteInput = document.getElementById('noteInput');
+        const notesContainer = document.getElementById('notesContainer');
+
+        if (noteInput.value.trim() !== '') {
+            const noteItem = document.createElement('li');
+            const noteText = document.createElement('span');
+            noteText.textContent = noteInput.value;
+            noteItem.appendChild(noteText);
+
+            const deleteButton = document.createElement('button');
+            deleteButton.textContent = 'Delete';
+            deleteButton.classList.add('delete-btn');
+            deleteButton.addEventListener('click', function() {
+                notesContainer.removeChild(noteItem);
+            });
+
+            noteItem.appendChild(deleteButton);
+            notesContainer.appendChild(noteItem);
+
+            noteInput.value = '';
+        }
+    });
+</script>
+</html>
