@@ -1,12 +1,14 @@
 <!-- NoteLock: A Secure Note and Password Manager Web Application -->
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Keep Your note here</title>
     <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
     <div class="container">
         <header>
@@ -34,30 +36,48 @@
     </div>
 </body>
 <script>
-    document.getElementById('noteForm').addEventListener('submit', function(event) {
+     document.getElementById('noteForm').addEventListener('submit', function(event) {
         event.preventDefault();
-
         const noteInput = document.getElementById('noteInput');
         const notesContainer = document.getElementById('notesContainer');
 
         if (noteInput.value.trim() !== '') {
             const noteItem = document.createElement('li');
-            const noteText = document.createElement('span');
-            noteText.textContent = noteInput.value;
-            noteItem.appendChild(noteText);
+            const noteTitle = document.createElement('span');
+            const noteContent = document.createElement('div');
+
+            // Extract the first line as the title
+            const lines = noteInput.value.split('\n');
+            noteTitle.textContent = lines[0] || 'Untitled Note';
+            noteTitle.classList.add('note-title');
+
+            // Store the full content in a hidden div
+            noteContent.textContent = noteInput.value;
+            noteContent.classList.add('note-content');
+            noteContent.style.display = 'none';
+
+            // Toggle visibility of the full content on click
+            noteTitle.addEventListener('click', function() {
+            noteContent.style.display = noteContent.style.display === 'none' ? 'block' : 'none';
+            });
+
+            noteItem.appendChild(noteTitle);
+            noteItem.appendChild(noteContent);
 
             const deleteButton = document.createElement('button');
             deleteButton.textContent = 'Delete';
             deleteButton.classList.add('delete-btn');
             deleteButton.addEventListener('click', function() {
-                notesContainer.removeChild(noteItem);
+            notesContainer.removeChild(noteItem);
             });
 
             noteItem.appendChild(deleteButton);
             notesContainer.appendChild(noteItem);
 
-            noteInput.value = '';
-        }
-    });
+                noteInput.value = '';
+            }
+        });
+
 </script>
+
 </html>
